@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        <h1 onclick="CambioTexto(this)">Hola Mundo</h1>
+        <div onmouseover="cambioColor(this)">
+            Grupo 35
+        </div>
+        <script>
+            var contador =0;
+            function cambioColor(ref){
+                ref.style.backgroundColor = "red";
+                window.alert("ALERTA");
+                
+            }
+            function CambioTexto(ref){
+                if (contador%2==0){
+                    ref.innerHTML = "Hola Grupo 35";
+                }else{
+                    ref.innerHTML = "Hola Mundo"
+                }
+                contador++
+            }
+        </script>
+    </body>
+</html>
