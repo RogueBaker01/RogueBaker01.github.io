@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <div class="container">
+
+        </div>
+        <script>
+            let arr = ["#203075","#207520","#c50909","#d5db0a","#0adb6c"];
+            let contenedor = document.querySelector(".container");
+            for(let i=0; i<200;i++){
+                let cuadrado = document.createElement("div");
+                cuadrado.classList.add("square","flag");
+                contenedor.appendChild(cuadrado);
+                cuadrado.addEventListener("mouseover",
+                    function(){
+                     num = Math.floor(Math.random()*arr.length)
+                     if(cuadrado.classList.contains("flag"))   
+                        cuadrado.style.background=arr[num]
+                        cuadrado.classList.remove("flag")
+                    });
+                cuadrado.addEventListener("mouseleave",
+                    function(){
+                        cuadrado.style.background="#1d1d1d"
+                    });
+            }
+        </script>
+    </body>
+</html>
