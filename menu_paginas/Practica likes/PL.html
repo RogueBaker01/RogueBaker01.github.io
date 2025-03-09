@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="styles.css"> 
+</head>
+<body>
+    <div class="input" onkeypress="crearcomentarios(event)">
+        <input type="text" placeholder="Escribe un comentario">
+    </div>
+    <div class="contenedor"></div>
+    
+    <script>
+        let arreglo = [];
+        
+        function crearcomentarios(event) {
+            if (event.key === "Enter" && event.target.value !== "") {
+                const nuevoComentario = {
+                    texto: event.target.value,
+                    likes: 0,
+                    respuestas: []
+                };
+                arreglo.push(nuevoComentario);
+                actualizarComentarios();
+                event.target.value = "";
+            }
+        }
+    
+        function actualizarComentarios() {
+            var contenedor = document.querySelector(".contenedor");
+            contenedor.innerHTML = "";
+            arreglo.forEach((i, index) => {
+                var caja = crearCajaComentario(i, index, arreglo);
+                contenedor.appendChild(caja);
+            });
+        }
+
+        function crearCajaComentario(i, index, arreglo) {
+            var caja = document.createElement("div");
+            caja.textContent = i.texto;
+            
+            var botonLike = document.createElement("button");
+            botonLike.textContent = "LIKE " + i.likes;
+            botonLike.onclick = () => {
+                i.likes++;
+                botonLike.textContent = "LIKE " + i.likes;
+            };
+            
+            var botonEliminar = document.createElement("button");
+            botonEliminar.textContent = "Delete";
+            botonEliminar.onclick = () => {
+                arreglo.splice(index, 1);
+                actualizarComentarios(); 
+            };
+            
+            var botonResponder = document.createElement("button");
+            botonResponder.textContent = "Responder";
+            botonResponder.onclick = () => mostrarInputRespuesta(caja, i);
+            
+            caja.appendChild(botonEliminar);
+            caja.appendChild(botonLike);
+            caja.appendChild(botonResponder);
+            
+            var respuestasDiv = document.createElement("div");
+            respuestasDiv.classList.add("respuestas");
+            i.respuestas.forEach((respuesta, respIndex) => {
+                var respuestaCaja = crearCajaComentario(respuesta, respIndex, i.respuestas);
+                respuestasDiv.appendChild(respuestaCaja);
+            });
+            caja.appendChild(respuestasDiv);
+            
+            return caja;
+        }
+        
+        function mostrarInputRespuesta(caja, i) {
+            var inputRespuesta = document.createElement("input");
+            inputRespuesta.type = "text";
+            inputRespuesta.placeholder = "Escribe una respuesta";
+            inputRespuesta.onkeypress = (event) => {
+                if (event.key === "Enter" && event.target.value !== "") {
+                    var nuevaRespuesta = {
+                        texto: event.target.value,
+                        likes: 0,
+                        respuestas: []
+                    };
+                    i.respuestas.push(nuevaRespuesta);
+                    actualizarComentarios();
+                }
+            };
+            caja.appendChild(inputRespuesta);
+            inputRespuesta.focus();
+        }
+    </script>
+</body>
+</html>
